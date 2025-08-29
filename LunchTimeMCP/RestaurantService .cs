@@ -15,10 +15,10 @@ public class RestaurantService
         var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var appDir = Path.Combine(appDataPath, "LunchTimeMCP");
         Directory.CreateDirectory(appDir);
-        
+
         dataFilePath = Path.Combine(appDir, "restaurants.json");
         LoadData();
-        
+
         // Initialize with trendy West Hollywood restaurants if empty
         if (restaurants.Count == 0)
         {
@@ -40,7 +40,7 @@ public class RestaurantService
             Name = name,
             Location = location,
             FoodType = foodType,
-        var formattedStats = stats.Values
+            var formattedStats = stats.Values
             .OrderByDescending(x => x.VisitCount)
             .Select(stat => new FormattedRestaurantStat
             {
@@ -48,8 +48,8 @@ public class RestaurantService
                 Location = stat.Restaurant.Location,
                 FoodType = stat.Restaurant.FoodType,
                 VisitCount = stat.VisitCount,
-                TimesEaten = stat.VisitCount == 0 ? "Never" : 
-                            stat.VisitCount == 1 ? "Once" : 
+                TimesEaten = stat.VisitCount == 0 ? "Never" :
+                            stat.VisitCount == 1 ? "Once" :
                             $"{stat.VisitCount} times"
             })
             .ToList();
@@ -72,7 +72,7 @@ public class RestaurantService
         {
             var json = File.ReadAllText(dataFilePath);
             var data = JsonSerializer.Deserialize<RestaurantData>(json, RestaurantContext.Default.RestaurantData);
-            
+
             if (data != null)
             {
                 restaurants = data.Restaurants ?? new List<Restaurant>();
@@ -94,7 +94,7 @@ public class RestaurantService
                 Restaurants = restaurants,
                 VisitCounts = visitCounts
             };
-            
+
             var json = JsonSerializer.Serialize(data, RestaurantContext.Default.RestaurantData);
             File.WriteAllText(dataFilePath, json);
         }
@@ -122,6 +122,7 @@ public class RestaurantService
 
         restaurants.AddRange(trendyRestaurants);
     }
+}
 
 [JsonSerializable(typeof(List<Restaurant>))]
 [JsonSerializable(typeof(Restaurant))]
