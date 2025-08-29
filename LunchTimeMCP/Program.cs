@@ -1,10 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LunchTimeMCP;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var builder = Host.CreateEmptyApplicationBuilder(settings: null);
 
+var builder = Host.CreateEmptyApplicationBuilder(settings: null);
 builder.Services
     .AddMcpServer()
-    .WithStdioServerTransport();
+    .WithStdioServerTransport()
+    .WithTools<RestaurantTools>();
+
+builder.Services.AddSingleton<RestaurantService>();
 
 await builder.Build().RunAsync();
