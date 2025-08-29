@@ -1,0 +1,14 @@
+{
+	"servers": {
+		"lunchroulette": {
+			"type": "stdio",
+			"command": "dotnet",
+			"args": [
+                "run",
+                "--project",
+                "LunchTimeMCP/LunchTimeMCP.csproj"
+            ]
+		}
+	},
+	"inputs": []
+}
