@@ -11,7 +11,7 @@ This is a console application that exposes restaurant data as an MCP server.
 - Use PascalCase for class names, method names, and properties
 - Use camelCase for local variables and parameters
 - Use descriptive names that clearly indicate purpose
-- Add XML documentation comments for public methods and classes
+- Don't add XML documentation comments for public methods and classes
 - Use `var` for local variables when the type is obvious
 - Prefer explicit types when it improves readability
 - Use async/await for asynchronous operations
