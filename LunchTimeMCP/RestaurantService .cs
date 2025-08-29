@@ -40,7 +40,56 @@ public class RestaurantService
             Name = name,
             Location = location,
             FoodType = foodType,
-            var formattedStats = stats.Values
+            DateAdded = DateTime.UtcNow
+        };
+
+        restaurants.Add(restaurant);
+        SaveData();
+        
+        return await Task.FromResult(restaurant);
+    }
+
+    public async Task<Restaurant?> PickRandomRestaurantAsync()
+    {
+        if (restaurants.Count == 0)
+            return null;
+
+        var random = new Random();
+        var selectedRestaurant = restaurants[random.Next(restaurants.Count)];
+        
+        // Track the visit
+        if (visitCounts.ContainsKey(selectedRestaurant.Id))
+            visitCounts[selectedRestaurant.Id]++;
+        else
+            visitCounts[selectedRestaurant.Id] = 1;
+
+        SaveData();
+        
+        return await Task.FromResult(selectedRestaurant);
+    }
+
+    public async Task<Dictionary<string, RestaurantVisitInfo>> GetVisitStatsAsync()
+    {
+        var stats = new Dictionary<string, RestaurantVisitInfo>();
+        
+        foreach (var restaurant in restaurants)
+        {
+            var visitCount = visitCounts.GetValueOrDefault(restaurant.Id, 0);
+            stats[restaurant.Name] = new RestaurantVisitInfo
+            {
+                Restaurant = restaurant,
+                VisitCount = visitCount,
+                LastVisited = visitCount > 0 ? DateTime.UtcNow : null // In a real app, you'd track actual visit dates
+            };
+        }
+
+        return await Task.FromResult(stats);
+    }
+
+    public async Task<FormattedRestaurantStats> GetFormattedVisitStatsAsync()
+    {
+        var stats = await GetVisitStatsAsync();            
+        var formattedStats = stats.Values
             .OrderByDescending(x => x.VisitCount)
             .Select(stat => new FormattedRestaurantStat
             {
