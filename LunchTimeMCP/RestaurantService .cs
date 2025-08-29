@@ -122,46 +122,6 @@ public class RestaurantService
 
         restaurants.AddRange(trendyRestaurants);
     }
-}
-
-public partial class Restaurant
-{
-    public string Id { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public string Location { get; set; } = string.Empty;
-    public string FoodType { get; set; } = string.Empty;
-    public DateTime DateAdded { get; set; }
-}
-
-public partial class RestaurantVisitInfo
-{
-    public Restaurant Restaurant { get; set; } = new();
-    public int VisitCount { get; set; }
-    public DateTime? LastVisited { get; set; }
-}
-
-public partial class RestaurantData
-{
-    public List<Restaurant> Restaurants { get; set; } = new();
-    public Dictionary<string, int> VisitCounts { get; set; } = new();
-}
-
-public class FormattedRestaurantStat
-{
-    public string Restaurant { get; set; } = string.Empty;
-    public string Location { get; set; } = string.Empty;
-    public string FoodType { get; set; } = string.Empty;
-    public int VisitCount { get; set; }
-    public string TimesEaten { get; set; } = string.Empty;
-}
-
-public class FormattedRestaurantStats
-{
-    public string Message { get; set; } = string.Empty;
-    public List<FormattedRestaurantStat> Statistics { get; set; } = new();
-    public int TotalRestaurants { get; set; }
-    public int TotalVisits { get; set; }
-}
 
 [JsonSerializable(typeof(List<Restaurant>))]
 [JsonSerializable(typeof(Restaurant))]
